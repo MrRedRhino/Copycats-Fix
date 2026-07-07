@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.pipeman.copycats_fix.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CopycatByteBlockMixin",
+    "DataFixersMixin",
+    "FluidTankMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
