@@ -4,9 +4,11 @@
   "package": "org.pipeman.copycats_fix.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockPosFormatAndRenamesFixMixin",
     "CopycatByteBlockMixin",
     "DataFixersMixin",
-    "FluidTankMixin"
+    "FluidTankMixin",
+    "V1460Mixin"
   ],
   "client": [
   ],

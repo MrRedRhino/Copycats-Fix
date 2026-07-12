@@ -3,7 +3,9 @@ package org.pipeman.copycats_fix.mixin;
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
 import net.minecraft.util.datafix.DataFixers;
-import org.pipeman.copycats_fix.ModdedItemComponentizationFix;
+import org.pipeman.copycats_fix.fixers.create.VaultFix;
+import org.pipeman.copycats_fix.fixers.etched.EtchedDiscFixer;
+import org.pipeman.copycats_fix.fixers.exposure.ExposureItemComponentizationFix;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,6 +24,12 @@ public class DataFixersMixin {
     @Inject(method = "addFixers", at = @At("TAIL"))
     private static void addFixers(DataFixerBuilder builder, CallbackInfo ci) {
         Schema schema = builder.addSchema(3818, 7, SAME_NAMESPACED);
-        builder.addFixer(new ModdedItemComponentizationFix(schema));
+        builder.addFixer(new ExposureItemComponentizationFix(schema));
+
+        Schema schema2 = builder.addSchema(3818, 8, SAME_NAMESPACED);
+        builder.addFixer(new VaultFix(schema2));
+
+        Schema schema3 = builder.addSchema(3818, 9, SAME_NAMESPACED);
+        builder.addFixer(new EtchedDiscFixer(schema3));
     }
 }
