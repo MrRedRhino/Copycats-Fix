@@ -5,9 +5,8 @@ import com.mojang.datafixers.TypeRewriteRule;
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.Type;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.SharedConstants;
-import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.References;
+import org.pipeman.copycats_fix.fixers.util.CustomDataFixUtil;
 
 import java.util.List;
 
@@ -31,17 +30,13 @@ public class VaultFix extends DataFix {
                         Dynamic<?> inventory = dynamic.get("Inventory").orElseEmptyMap();
 
                         List<Dynamic<?>> items = inventory.get("Items").asList(dynamic1 -> dynamic1);
-                        items.replaceAll(VaultFix::fixItem);
+                        items.replaceAll(CustomDataFixUtil::fixItem);
 
                         return dynamic.set("Inventory", inventory.set("Items", dynamic.createList(items.stream())));
                     }
 
                     return dynamic;
                 }
-        ); // DataFixers.getDataFixer().update(References.ITEM_STACK, null, 0, SharedConstants.getCurrentVersion().getDataVersion().getVersion())
-    }
-
-    private static <T> Dynamic<T> fixItem(Dynamic<T> input) {
-        return DataFixers.getDataFixer().update(References.ITEM_STACK, input, 0, SharedConstants.getCurrentVersion().getDataVersion().getVersion());
+        );
     }
 }

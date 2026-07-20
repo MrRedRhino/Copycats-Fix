@@ -5,9 +5,8 @@ import com.mojang.datafixers.TypeRewriteRule;
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.Type;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.SharedConstants;
-import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.References;
+import org.pipeman.copycats_fix.fixers.util.CustomDataFixUtil;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class EtchedJukeboxFixer extends DataFix {
                     String id = dynamic.get("id").asString("");
 
                     if (id.equals("etched:album_jukebox")) {
-                        List<Dynamic<?>> items = dynamic.get("Items").asList(EtchedJukeboxFixer::fixItem);
+                        List<Dynamic<?>> items = dynamic.get("Items").asList(CustomDataFixUtil::fixItem);
                         return dynamic.set("Items", dynamic.createList(items.stream()));
                     }
 
@@ -38,11 +37,7 @@ public class EtchedJukeboxFixer extends DataFix {
     }
 
     public static <T> Dynamic<T> fixJukebox(Dynamic<T> dynamic) {
-        List<Dynamic<?>> items = dynamic.get("Items").asList(EtchedJukeboxFixer::fixItem);
+        List<Dynamic<?>> items = dynamic.get("Items").asList(CustomDataFixUtil::fixItem);
         return dynamic.set("Items", dynamic.createList(items.stream()));
-    }
-
-    private static <T> Dynamic<T> fixItem(Dynamic<T> input) {
-        return DataFixers.getDataFixer().update(References.ITEM_STACK, input, 0, SharedConstants.getCurrentVersion().getDataVersion().getVersion());
     }
 }

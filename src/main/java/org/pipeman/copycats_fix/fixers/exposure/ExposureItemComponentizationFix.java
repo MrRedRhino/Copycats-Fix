@@ -7,9 +7,7 @@ import com.mojang.datafixers.types.Type;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.util.datafix.fixes.References;
-
-import java.util.Optional;
-import java.util.function.BiFunction;
+import org.pipeman.copycats_fix.fixers.util.CustomDataFixUtil;
 
 public class ExposureItemComponentizationFix extends DataFix {
 
@@ -42,31 +40,19 @@ public class ExposureItemComponentizationFix extends DataFix {
     }
 
     private static Dynamic<?> fixPhotograph(Dynamic<?> dynamic) {
-        return withCustomData(dynamic, (customData, components) -> components
+        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> components
                 .set("exposure:photograph_frame", customData.get("photograph_frame").orElseEmptyMap())
                 .set("exposure:photograph_type", customData.get("photograph_type").orElseEmptyMap()));
     }
 
     private static Dynamic<?> fixAlbum(Dynamic<?> dynamic) {
-        return withCustomData(dynamic, (customData, components) -> {
+        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> {
             Dynamic<?> albumContent = customData.get("album_content").orElseEmptyMap();
             Dynamic<?> pages = albumContent.createList(albumContent.get("pages").orElseEmptyList().asStream()
                     .map(ExposureItemComponentizationFix::fixAlbumPage));
 
             return components.set("exposure:album_content", albumContent.set("pages", pages));
         });
-    }
-
-    // Shared by fixPhotograph/fixAlbum: unwraps "minecraft:custom_data" (a no-op if it's
-    // already gone) and hands the caller the custom data alongside a "components" map with
-    // that key removed, ready to have the mod's own componentized keys set onto it.
-    private static Dynamic<?> withCustomData(Dynamic<?> dynamic, BiFunction<Dynamic<?>, Dynamic<?>, Dynamic<?>> apply) {
-        Optional<? extends Dynamic<?>> customDataOptional = dynamic.get("components").get("minecraft:custom_data").result();
-        if (customDataOptional.isEmpty()) return dynamic;
-        Dynamic<?> customData = customDataOptional.get();
-
-        Dynamic<?> componentsBase = dynamic.get("components").orElseEmptyMap().remove("minecraft:custom_data");
-        return dynamic.set("components", apply.apply(customData, componentsBase));
     }
 
     private static Dynamic<?> fixAlbumPage(Dynamic<?> page) {

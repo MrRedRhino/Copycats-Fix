@@ -24,11 +24,13 @@ public abstract class BlockPosFormatAndRenamesFixMixin extends DataFix {
     @Inject(method = "makeRule", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0))
     private void create$addFixers(CallbackInfoReturnable<TypeRewriteRule> cir, @Local List<TypeRewriteRule> output) {
         for (CopycatsFix.MixinFixer fixer : CopycatsFix.MIXIN_FIXERS) {
+            if (fixer.fixer() == null) continue;
+
             String id = fixer.id();
             DSL.TypeReference ref = fixer.reference();
 
             OpticFinder<?> opticfinder = DSL.namedChoice(id, this.getInputSchema().getChoiceType(ref, id));
-            TypeRewriteRule rule = fixTypeEverywhereTyped("Exposure photograph frame fix",
+            TypeRewriteRule rule = fixTypeEverywhereTyped("Fix for " + id,
                     getInputSchema().getType(ref),
                     typed -> typed.updateTyped(opticfinder, data ->
                             data.update(DSL.remainderFinder(), d -> fixer.fixer().apply(d))

@@ -9,9 +9,9 @@ import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.Type;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.util.datafix.fixes.References;
+import org.pipeman.copycats_fix.fixers.util.CustomDataFixUtil;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class EtchedDiscFixer extends DataFix {
@@ -42,13 +42,7 @@ public class EtchedDiscFixer extends DataFix {
     }
 
     private static Dynamic<?> fixEtchedMusicDisc(Dynamic<?> dynamic) {
-        Optional<? extends Dynamic<?>> customDataOptional = dynamic.get("components").get("minecraft:custom_data").result();
-        if (customDataOptional.isEmpty()) return dynamic;
-        Dynamic<?> customData = customDataOptional.get();
-
-        Dynamic<?> componentsBase = dynamic.get("components").orElseEmptyMap().remove("minecraft:custom_data");
-
-        return dynamic.set("components", componentsBase
+        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> components
                 .set("etched:disc_appearance", fixDiscAppearance(customData))
                 .set("etched:music", customData.createList(Stream.of(fixMusic(customData.get("Music").orElseEmptyMap())))));
     }

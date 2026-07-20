@@ -21,8 +21,19 @@ public class CopycatsFix {
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final List<MixinFixer> MIXIN_FIXERS = List.of(
             new MixinFixer("etched:album_jukebox", References.BLOCK_ENTITY, EtchedJukeboxFixer::fixJukebox),
-            new MixinFixer("exposure:glass_photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame),
-            new MixinFixer("exposure:photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame)
+
+            new MixinFixer("create:funnel", References.BLOCK_ENTITY, null),
+            new MixinFixer("create:basin", References.BLOCK_ENTITY, null),
+            new MixinFixer("create:depot", References.BLOCK_ENTITY, null), // Item
+            new MixinFixer("create:chute", References.BLOCK_ENTITY, null), // Item
+            new MixinFixer("create:smart_chute", References.BLOCK_ENTITY, null), // Item, Filter
+            new MixinFixer("create:smart_chute", References.BLOCK_ENTITY, null), // Item, Filter
+            new MixinFixer("create:smart_fluid_pipe", References.BLOCK_ENTITY, null), // Filter
+            new MixinFixer("create:smart_fluid_pipe", References.BLOCK_ENTITY, null), // Filter
+
+            new MixinFixer("exposure:photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame),
+            new MixinFixer("exposure:glass_photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame)
+            // deployer
     );
 
     public CopycatsFix(IEventBus modEventBus, ModContainer modContainer) {
