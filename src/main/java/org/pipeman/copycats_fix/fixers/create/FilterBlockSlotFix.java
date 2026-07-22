@@ -22,11 +22,11 @@ public class FilterBlockSlotFix extends DataFix {
                 itemStackType,
                 dynamic -> {
                     if (dynamic.get("Filter").result().isPresent()) {
-                        return dynamic.set("Filter", CustomDataFixUtil.fixItem(dynamic.get("Filter").orElseEmptyMap()));
+                        dynamic = dynamic.set("Filter", CustomDataFixUtil.fixItem(dynamic.get("Filter").orElseEmptyMap()));
                     }
 
                     if (dynamic.get("Item").result().isPresent()) {
-                        return dynamic.set("Item", CustomDataFixUtil.fixItem(dynamic.get("Item").orElseEmptyMap()));
+                        dynamic = dynamic.set("Item", CustomDataFixUtil.fixItem(dynamic.get("Item").orElseEmptyMap()));
                     }
 
                     return dynamic;
