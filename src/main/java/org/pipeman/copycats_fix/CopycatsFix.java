@@ -23,6 +23,7 @@ public class CopycatsFix {
             new MixinFixer("etched:album_jukebox", References.BLOCK_ENTITY, EtchedJukeboxFixer::fixJukebox),
 
             new MixinFixer("create:funnel", References.BLOCK_ENTITY, null),
+            new MixinFixer("create:brass_funnel", References.BLOCK_ENTITY, null),
             new MixinFixer("create:basin", References.BLOCK_ENTITY, null),
             new MixinFixer("create:depot", References.BLOCK_ENTITY, null), // Item
             new MixinFixer("create:chute", References.BLOCK_ENTITY, null), // Item
@@ -30,10 +31,15 @@ public class CopycatsFix {
             new MixinFixer("create:smart_chute", References.BLOCK_ENTITY, null), // Item, Filter
             new MixinFixer("create:smart_fluid_pipe", References.BLOCK_ENTITY, null), // Filter
             new MixinFixer("create:smart_fluid_pipe", References.BLOCK_ENTITY, null), // Filter
+            new MixinFixer("create:tunnel", References.BLOCK_ENTITY, null), // Item, Filter
+            new MixinFixer("create:brass_tunnel", References.BLOCK_ENTITY, null), // Item, Filter
+            new MixinFixer("create:stock_ticker", References.BLOCK_ENTITY, null), // Item, Filter
 
             new MixinFixer("exposure:photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame),
-            new MixinFixer("exposure:glass_photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame)
+            new MixinFixer("exposure:glass_photograph_frame", References.ENTITY, PhotographFrameFix::fixFrame),
             // deployer
+            new MixinFixer("create:super_glue", References.ENTITY, null), // to prevent the data fixer from freaking out
+            new MixinFixer("connectiblechains:chain_knot", References.ENTITY, null) // same here
     );
 
     public CopycatsFix(IEventBus modEventBus, ModContainer modContainer) {
