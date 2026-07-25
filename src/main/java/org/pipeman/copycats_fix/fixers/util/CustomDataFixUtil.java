@@ -23,6 +23,6 @@ public class CustomDataFixUtil {
     }
 
     public static <T> Dynamic<T> fixItem(Dynamic<T> input) {
-        return DataFixers.getDataFixer().update(References.ITEM_STACK, input, 0, SharedConstants.getCurrentVersion().getDataVersion().getVersion());
+        return DataFixers.getDataFixer().update(References.ITEM_STACK, input, 3465, SharedConstants.getCurrentVersion().getDataVersion().getVersion());
     }
 }
