@@ -5,8 +5,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.References;
 
-import java.util.Optional;
-
 public class PhotographFrameFix {
     public static <T> Dynamic<T> fixFrame(Dynamic<T> dynamic) {
         int newVersion = SharedConstants.getCurrentVersion().getDataVersion().getVersion();
@@ -27,6 +25,6 @@ public class PhotographFrameFix {
         Dynamic<?> fixedItem = DataFixers.getDataFixer()
                 .update(References.ITEM_STACK, item, 0, newVersion);
 
-        return dynamic.set("Item", (Dynamic<T>) fixedItem);
+        return dynamic.set("Item", fixedItem);
     }
 }
