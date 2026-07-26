@@ -40,14 +40,22 @@ public class ExposureItemComponentizationFix extends DataFix {
     }
 
     private static Dynamic<?> fixPhotograph(Dynamic<?> dynamic) {
-        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> {
-            Dynamic<?> frame = components.emptyMap()
-                    .set("identifier", dynamic.get("tag").get("Id").orElseEmptyMap());
+        Dynamic<?> tag = dynamic.get("tag").orElseEmptyMap();
 
+        if (tag.get("photograph_frame").result().isEmpty()) {
+            String legacyId = tag.get("Id").asString(null);
+            if (legacyId != null) {
+                Dynamic<?> photographFrame = tag.emptyMap()
+                        .set("identifier", tag.createString(legacyId));
+                tag = tag.set("photograph_frame", photographFrame);
+                dynamic = dynamic.set("tag", tag);
+            }
+        }
+
+        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> {
             return components
                     .set("exposure:photograph_frame", customData.get("photograph_frame").orElseEmptyMap())
-                    .set("exposure:photograph_type", customData.get("photograph_type").orElseEmptyMap())
-                    .set("photograph_frame", frame);
+                    .set("exposure:photograph_type", customData.get("photograph_type").orElseEmptyMap());
         });
     }
 
