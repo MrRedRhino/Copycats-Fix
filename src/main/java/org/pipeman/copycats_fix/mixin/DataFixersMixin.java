@@ -26,9 +26,6 @@ public class DataFixersMixin {
         Schema schema = builder.addSchema(3818, 7, SAME_NAMESPACED);
         builder.addFixer(new ExposureItemComponentizationFix(schema));
 
-        Schema schema2 = builder.addSchema(3818, 8, SAME_NAMESPACED);
-        builder.addFixer(new VaultFix(schema2));
-
         Schema schema3 = builder.addSchema(3818, 9, SAME_NAMESPACED);
         builder.addFixer(new EtchedDiscFixer(schema3));
 
@@ -43,5 +40,8 @@ public class DataFixersMixin {
 
         Schema schema7 = builder.addSchema(3818, 13, SAME_NAMESPACED);
         builder.addFixer(new StockTickerFix(schema7));
+
+        Schema schema2 = builder.addSchema(3818, 14, SAME_NAMESPACED);
+        builder.addFixer(new VaultFix(schema2));
     }
 }

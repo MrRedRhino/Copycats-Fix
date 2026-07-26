@@ -9,6 +9,8 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.util.datafix.fixes.References;
 import org.pipeman.copycats_fix.fixers.util.CustomDataFixUtil;
 
+import java.util.List;
+
 public class ExposureItemComponentizationFix extends DataFix {
 
     public ExposureItemComponentizationFix(Schema outputSchema) {
@@ -32,6 +34,18 @@ public class ExposureItemComponentizationFix extends DataFix {
 
                     if (id.equals("exposure:album")) {
                         return fixAlbum(dynamic);
+                    }
+
+                    if (id.equals("exposure:stacked_photographs")) {
+                        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> {
+                            List<? extends Dynamic<?>> categories = dynamic.get("Photographs").asList(CustomDataFixUtil::fixItem);
+                            return dynamic.set("Photographs", dynamic.createList(categories.stream()));
+                        });
+                    }
+
+                    if (id.equals("exposure:developed_color_film") || id.equals("exposure:developed_black_and_white_film")) {
+                        return CustomDataFixUtil.withCustomData(dynamic, (customData, components) ->
+                                dynamic.set("exposure:film_frames", customData.get("film_frames").orElseEmptyList()));
                     }
 
                     return dynamic;
