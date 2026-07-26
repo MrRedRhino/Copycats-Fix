@@ -45,7 +45,7 @@ public class ExposureItemComponentizationFix extends DataFix {
 
                     if (id.equals("exposure:developed_color_film") || id.equals("exposure:developed_black_and_white_film")) {
                         return CustomDataFixUtil.withCustomData(dynamic, (customData, components) ->
-                                dynamic.set("exposure:film_frames", customData.get("film_frames").orElseEmptyList()));
+                                components.set("exposure:film_frames", customData.get("film_frames").orElseEmptyList()));
                     }
 
                     return dynamic;
