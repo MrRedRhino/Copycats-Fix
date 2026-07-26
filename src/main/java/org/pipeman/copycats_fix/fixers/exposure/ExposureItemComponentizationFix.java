@@ -38,8 +38,8 @@ public class ExposureItemComponentizationFix extends DataFix {
 
                     if (id.equals("exposure:stacked_photographs")) {
                         return CustomDataFixUtil.withCustomData(dynamic, (customData, components) -> {
-                            List<? extends Dynamic<?>> categories = dynamic.get("Photographs").asList(CustomDataFixUtil::fixItem);
-                            return dynamic.set("Photographs", dynamic.createList(categories.stream()));
+                            List<? extends Dynamic<?>> photos = customData.get("Photographs").asList(CustomDataFixUtil::fixItem);
+                            return components.set("exposure:stacked_photographs", dynamic.createList(photos.stream()));
                         });
                     }
 
