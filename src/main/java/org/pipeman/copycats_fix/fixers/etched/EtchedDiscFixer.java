@@ -1,8 +1,5 @@
 package org.pipeman.copycats_fix.fixers.etched;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.DataFix;
 import com.mojang.datafixers.TypeRewriteRule;
 import com.mojang.datafixers.schemas.Schema;
@@ -51,36 +48,8 @@ public class EtchedDiscFixer extends DataFix {
     // its plain text. DataFixers run before registries exist, so Component.Serializer
     // (which needs a HolderLookup.Provider) isn't usable here - the JSON is walked by hand.
     private static Dynamic<?> fixMusic(Dynamic<?> music) {
-        String title = extractText(music.get("Title").asString(""));
+        String title = CustomDataFixUtil.extractText(music.get("Title").asString(""));
         return music.set("Title", music.createString(title));
-    }
-
-    private static String extractText(String json) {
-        try {
-            return extractText(JsonParser.parseString(json));
-        } catch (JsonSyntaxException e) {
-            return json;
-        }
-    }
-
-    private static String extractText(JsonElement element) {
-        if (element.isJsonPrimitive()) return element.getAsString();
-
-        if (element.isJsonArray()) {
-            StringBuilder text = new StringBuilder();
-            element.getAsJsonArray().forEach(child -> text.append(extractText(child)));
-            return text.toString();
-        }
-
-        if (element.isJsonObject()) {
-            StringBuilder text = new StringBuilder();
-            if (element.getAsJsonObject().has("text")) text.append(element.getAsJsonObject().get("text").getAsString());
-            if (element.getAsJsonObject().has("extra"))
-                text.append(extractText(element.getAsJsonObject().get("extra")));
-            return text.toString();
-        }
-
-        return "";
     }
 
     // Legacy colors were plain RGB ints; the new components expect ARGB, so the alpha
