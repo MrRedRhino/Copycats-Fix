@@ -3,10 +3,7 @@ package org.pipeman.copycats_fix.mixin;
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
 import net.minecraft.util.datafix.DataFixers;
-import org.pipeman.copycats_fix.fixers.create.ClipboardFix;
-import org.pipeman.copycats_fix.fixers.create.FilterBlockSlotFix;
-import org.pipeman.copycats_fix.fixers.create.FilterFix;
-import org.pipeman.copycats_fix.fixers.create.VaultFix;
+import org.pipeman.copycats_fix.fixers.create.*;
 import org.pipeman.copycats_fix.fixers.etched.EtchedDiscFixer;
 import org.pipeman.copycats_fix.fixers.exposure.ExposureItemComponentizationFix;
 import org.spongepowered.asm.mixin.Final;
@@ -41,8 +38,10 @@ public class DataFixersMixin {
         Schema schema5 = builder.addSchema(3818, 11, SAME_NAMESPACED);
         builder.addFixer(new FilterBlockSlotFix(schema5));
 
-
         Schema schema6 = builder.addSchema(3818, 12, SAME_NAMESPACED);
         builder.addFixer(new ClipboardFix(schema6));
+
+        Schema schema7 = builder.addSchema(3818, 13, SAME_NAMESPACED);
+        builder.addFixer(new StockTickerFix(schema7));
     }
 }
